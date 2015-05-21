@@ -1,0 +1,24 @@
+{
+  "name": "koa-static-server",
+  "description": "Static file serving middleware for koa with directory support",
+  "repository": "https://github.com/pkoretic/koa-static-server",
+  "version": "0.1.0",
+  "keywords": [
+    "koa",
+    "middleware",
+    "file",
+    "static",
+    "sendfile",
+    "directory",
+    "server",
+    "folder"
+  ],
+  "files": [
+    "index.js"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "koa-send": "~1.3.0",
+    "co-fs": "~1.2.0"
+  }
+}
