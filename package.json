@@ -18,7 +18,6 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "koa-send": "~1.3.0",
-    "co-fs": "~1.2.0"
+    "koa-send": "~1.3.0"
   }
 }
