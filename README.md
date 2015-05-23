@@ -1,8 +1,6 @@
 # koa-static-server
 
-[![NPM version][npm-image]][npm-url]
-[![License][license-image]][license-url]
-[![Downloads][downloads-image]][downloads-url]
+[![NPM](https://nodei.co/npm/koa-static-server.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/koa-static-server/)
 
 static file serving middleware for koa with directory, rewrite and index support
 
