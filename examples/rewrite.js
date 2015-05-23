@@ -3,11 +3,11 @@
 var serve = require('..')
 var app = require('koa')()
 
-//// rewrite support
-//// GET /web/
-//// returns 404
-//// GET /admin
-//// returns /admin/index.html
+// rewrite support
+// GET /web/
+// returns 404
+// GET /admin
+// returns /admin/index.html
 app.use(serve({rootDir: 'web', rootPath: '/admin'}))
 
 app.listen(3000)
