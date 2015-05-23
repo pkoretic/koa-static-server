@@ -1,5 +1,9 @@
 # koa-static-server
 
+[![NPM version][npm-image]][npm-url]
+[![License][license-image]][license-url]
+[![Downloads][downloads-image]][downloads-url]
+
 static file serving middleware for koa with directory, rewrite and index support
 
 ## Installation
