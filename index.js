@@ -13,6 +13,7 @@
 
 var send = require('koa-send')
 var path = require('path')
+var normalize = require('path').normalize
 
 module.exports = function(opts) {
 
@@ -45,7 +46,7 @@ module.exports = function(opts) {
         'web/static/file.txt' will be served as 'http://server/static/file.txt'
         */
         if (options.rootPath)
-            this.path = this.path.replace(options.rootPath, '')
+            this.path = normalize(this.path.replace(options.rootPath, "/"))
 
         yield send(this,  this.path, options)
     }
