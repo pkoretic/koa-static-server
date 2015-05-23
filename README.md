@@ -1,5 +1,6 @@
 # koa-static-server
-koajs static middleware with folder and index support
+
+static file serving middleware for koa with directory, rewrite and index support
 
 ## Installation
 
