@@ -27,6 +27,7 @@ is supported by a client and if the requested file with `.gz` extension exists.
 defaults to true.
 
 ## Example
+See [examples](https://github.com/pkoretic/koa-static-server/tree/master/examples) for code examples
 
 ```js
 // example 'web' directory
