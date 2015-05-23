@@ -35,7 +35,7 @@ See [examples](https://github.com/pkoretic/koa-static-server/tree/master/example
 // web/index.html
 // web/file.txt
 
-var serve = require('..')
+var serve = require('koa-static-server')
 var app = require('koa')()
 
 // root index support
