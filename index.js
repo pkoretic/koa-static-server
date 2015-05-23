@@ -7,7 +7,7 @@
   Supports 'index' file.
 
   @param {Object} options
-  @return {Object} - has only 'server' function
+  @return {Object} - {Function} serve
   @api public
 */
 
