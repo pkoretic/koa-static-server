@@ -1,87 +1,52 @@
 'use strict'
 
 /**
- * Serve static files from `rootDir`.
- *
- * Serves all files from a specified directory. Can be used for public and
- * asset folders.
- *
- * @param {String} root
- * @return {Function}
- * @api public
- */
+  Serve static files from `rootDir`.
+
+  Serves files from specified directory at specified path or from root.
+  Supports 'index' file.
+
+  @param {Object} options
+  @return {Object} - has only 'server' function
+  @api public
+*/
 
 var send = require('koa-send')
 var path = require('path')
-var fs = require('fs')
-var util = require('util')
 
-module.exports = function(rootName, opts) {
-    return new function() {
+module.exports = function(opts) {
 
-        let finalFiles = []
-        let options = opts || {}
-        var root = rootName
-        let self = this
+    let options = opts || {}
+    options.root = path.resolve(options.rootDir || process.cwd())
+    options.index = options.index || "index.html"
 
-        if (!root || (typeof root) != 'string')
-            throw Error('rootDir must be a valid path.')
+    if (typeof options.rootDir != 'string')
+        throw Error('rootDir must be specified')
 
-        if (!fs.statSync(root).isDirectory())
-            throw Error('rootDir should be a directory.')
+    return function*(next) {
 
-        finalFiles = walk(root)
+        /* Serve folder as root path - default
+         eg. for options
+            rootDir = 'web'
+        'web/file.txt' will be served as 'http://host/file.txt'
+        */
+        if (!options.rootPath)
+            return yield send(this, this.path, options)
 
-        root = fs.realpathSync(root)
+        // Check if request path (eg: /doc/file.html) is allowed (eg. in /doc)
+        if (this.path.indexOf(options.rootPath) != 0)
+            return yield * next
 
-        options.root = process.cwd()
-        options.index = options.index || "index.html"
-        self.root = root
-        self.rootDir = path.normalize(util.format("/%s/", path.normalize(rootName)))
+        /* Serve folders as specified
+         eg. for options:
+            rootDir = 'web/static'
+            rootPath = '/static'
 
-        this.serveCached = function() {
-            return function*(next) {
-                var file = finalFiles[this.path]
-                var trailingSlash = '/' == this.path[this.path.length - 1]
+        'web/static/file.txt' will be served as 'http://server/static/file.txt'
+        */
+        if (options.rootPath)
+            this.path = this.path.replace(options.rootPath, '')
 
-                // if file exists or this is directory
-                // pass it to koa-send
-                if (file || trailingSlash)
-                    yield send(this, this.path, options)
-                else
-                    yield *next
-            }
-        }
-
-        this.reloadCached = function() {
-            finalFiles = walk(self.root)
-        }
-
-        // here we check if request path (eg: /doc/file.html) is
-        // allowed (eg. in /doc/)
-        this.serve = function() {
-            return function*(next) {
-
-                var allowed = this.path.indexOf(self.rootDir) === 0
-                if (allowed)
-                    yield send(this, this.path, options)
-                else
-                    yield *next
-
-            }
-        }
-
-        function walk(directory) {
-            let files = fs.readdirSync(directory)
-
-            for(let file of files) {
-                file = directory + '/' + file
-                if ((fs.statSync(file)).isDirectory())
-                    walk(file, finalFiles)
-                else
-                    finalFiles[path.normalize(file)] = true
-            }
-            return finalFiles;
-        }
+        yield send(this,  this.path, options)
     }
 }
