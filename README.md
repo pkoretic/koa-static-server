@@ -1,6 +1,6 @@
 # koa-static-server
 
-[![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg)]()  
+[![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/pkoretic/koa-static-server/blob/master/LICENSE)  
 [![NPM](https://nodei.co/npm/koa-static-server.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/koa-static-server/)
 
 static file serving middleware for koa with directory, rewrite and index support
