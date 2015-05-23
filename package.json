@@ -2,7 +2,7 @@
   "name": "koa-static-server",
   "description": "Static file serving middleware for koa with directory, rewrite and index support",
   "repository": "https://github.com/pkoretic/koa-static-server",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "keywords": [
     "koa",
     "middleware",
