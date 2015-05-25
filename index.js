@@ -45,8 +45,16 @@ module.exports = function(opts) {
 
         'web/static/file.txt' will be served as 'http://server/static/file.txt'
         */
-        if (options.rootPath)
+
+        // Redirect non-slashed request to slashed
+        // eg. /doc to /doc/
+
+        if (this.path == options.rootPath)
+            return this.redirect(normalize(options.rootPath + "/"))
+
+        if (options.rootPath) {
             this.path = normalize(this.path.replace(options.rootPath, "/"))
+        }
 
         yield send(this,  this.path, options)
     }
