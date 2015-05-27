@@ -31,12 +31,14 @@ module.exports = function(opts) {
             rootDir = 'web'
         'web/file.txt' will be served as 'http://host/file.txt'
         */
-        if (!options.rootPath)
-            return yield send(this, this.path, options)
+        if (!options.rootPath) {
+            yield send(this, this.path, options)
+            return yield *next
+        }
 
         // Check if request path (eg: /doc/file.html) is allowed (eg. in /doc)
         if (this.path.indexOf(options.rootPath) != 0)
-            return yield * next
+            return yield *next
 
         /* Serve folders as specified
          eg. for options:
@@ -57,5 +59,6 @@ module.exports = function(opts) {
         }
 
         yield send(this,  this.path, options)
+        return yield *next
     }
 }
