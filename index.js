@@ -32,8 +32,11 @@ module.exports = function(opts) {
         'web/file.txt' will be served as 'http://host/file.txt'
         */
         if (!options.rootPath) {
-            yield send(this, this.path, options)
-            return yield *next
+            let sent = yield send(this, this.path, options)
+            if (sent)
+                return
+            else
+                return yield *next
         }
 
         // Check if request path (eg: /doc/file.html) is allowed (eg. in /doc)
@@ -58,7 +61,10 @@ module.exports = function(opts) {
             this.path = normalize(this.path.replace(options.rootPath, "/"))
         }
 
-        yield send(this,  this.path, options)
-        return yield *next
+        let sent = yield send(this,  this.path, options)
+        if (sent)
+            return
+        else
+            return yield *next
     }
 }
