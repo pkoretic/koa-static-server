@@ -31,8 +31,9 @@ module.exports = function(opts) {
             rootDir = 'web'
         'web/file.txt' will be served as 'http://host/file.txt'
         */
+        let path = this.path
         if (!options.rootPath) {
-            let sent = yield send(this, this.path, options)
+            let sent = yield send(this, path, options)
             if (sent)
                 return
             else
@@ -40,7 +41,7 @@ module.exports = function(opts) {
         }
 
         // Check if request path (eg: /doc/file.html) is allowed (eg. in /doc)
-        if (this.path.indexOf(options.rootPath) != 0)
+        if (path.indexOf(options.rootPath) != 0)
             return yield *next
 
         /* Serve folders as specified
@@ -54,14 +55,14 @@ module.exports = function(opts) {
         // Redirect non-slashed request to slashed
         // eg. /doc to /doc/
 
-        if (this.path == options.rootPath)
+        if (path == options.rootPath)
             return this.redirect(normalize(options.rootPath + "/"))
 
         if (options.rootPath) {
-            this.path = normalize(this.path.replace(options.rootPath, "/"))
+            path = normalize(path.replace(options.rootPath, "/"))
         }
 
-        let sent = yield send(this,  this.path, options)
+        let sent = yield send(this,  path, options)
         if (sent)
             return
         else
