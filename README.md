@@ -24,6 +24,7 @@ app.use(require('koa-static')(options))
 
  - `rootDir` {string} directory that is to be server
  - `rootPath` {string} optional rewrite path
+ - `log` {boolean} request access log to console
  - `maxage` Browser cache max-age in milliseconds. defaults to 0
  - `hidden` Allow transfer of hidden files. defaults to false
  - `gzip` Try to serve the gzipped version of a file automatically when `gzip`
