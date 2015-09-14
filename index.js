@@ -34,7 +34,7 @@ module.exports = function(opts) {
         */
         let path = this.path
         if (!options.rootPath) {
-            log && console.log(new Date().toISOString(), this.path)
+            log && console.log(new Date().toISOString(), path)
             let sent = yield send(this, path, options)
             if (sent)
                 return
@@ -64,7 +64,7 @@ module.exports = function(opts) {
             path = normalize(path.replace(options.rootPath, "/"))
         }
 
-        log && console.log(new Date().toISOString(), this.path)
+        log && console.log(new Date().toISOString(), path)
         let sent = yield send(this,  path, options)
         if (sent)
             return
