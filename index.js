@@ -20,6 +20,7 @@ module.exports = function(opts) {
     let options = opts || {}
     options.root = path.resolve(options.rootDir || process.cwd())
     options.index = options.index || "index.html"
+    let log = options.log || false
 
     if (typeof options.rootDir != 'string')
         throw Error('rootDir must be specified')
@@ -33,6 +34,7 @@ module.exports = function(opts) {
         */
         let path = this.path
         if (!options.rootPath) {
+            log && console.log(new Date().toISOString(), this.path)
             let sent = yield send(this, path, options)
             if (sent)
                 return
@@ -62,6 +64,7 @@ module.exports = function(opts) {
             path = normalize(path.replace(options.rootPath, "/"))
         }
 
+        log && console.log(new Date().toISOString(), this.path)
         let sent = yield send(this,  path, options)
         if (sent)
             return
