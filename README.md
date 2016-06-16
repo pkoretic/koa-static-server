@@ -22,7 +22,7 @@ app.use(require('koa-static')(options))
 
 ### Options
 
- - `rootDir` {string} directory that is to be server
+ - `rootDir` {string} directory that is to be served
  - `rootPath` {string} optional rewrite path
  - `log` {boolean} request access log to console
  - `maxage` Browser cache max-age in milliseconds. defaults to 0
