@@ -1,32 +1,37 @@
 'use strict'
 
 /**
-  Serve static files from `rootDir`.
+ * Module dependencies
+ */
 
-  Serves files from specified directory at specified path or from root.
-  Supports 'index' file.
+const send = require('koa-send')
+const normalize = require('path').normalize
+const path = require('path')
 
-  @param {Object} options
-  @return {Object} - {Function} serve
-  @api public
-*/
+module.exports = serve
 
-var send = require('koa-send')
-var path = require('path')
-var normalize = require('path').normalize
+/**
+ * Serve static files from `rootDir`.
+ *
+ * Serves files from specified directory at specified path or from root.
+ * Supports 'index' file.
+ *
+ * @param {Object} options
+ * @return {Object} - {Function} serve
+ * @api public
+ */
 
-module.exports = function(opts) {
+function serve(opts) {
 
     let options = opts || {}
     options.root = path.resolve(options.rootDir || process.cwd())
     options.index = options.index || "index.html"
     let log = options.log || false
 
-    if (typeof options.rootDir != 'string')
+    if (typeof options.rootDir !== 'string')
         throw Error('rootDir must be specified')
 
     return function*(next) {
-
         /* Serve folder as root path - default
          eg. for options
             rootDir = 'web'
@@ -35,7 +40,7 @@ module.exports = function(opts) {
         let path = this.path
         if (!options.rootPath) {
             log && console.log(new Date().toISOString(), path)
-            let sent = yield send(this, path, options)
+            const sent = yield send(this, path, options)
             if (sent)
                 return
             else
@@ -43,7 +48,7 @@ module.exports = function(opts) {
         }
 
         // Check if request path (eg: /doc/file.html) is allowed (eg. in /doc)
-        if (path.indexOf(options.rootPath) != 0)
+        if (path.indexOf(options.rootPath) !== 0)
             return yield *next
 
         /* Serve folders as specified
@@ -57,15 +62,14 @@ module.exports = function(opts) {
         // Redirect non-slashed request to slashed
         // eg. /doc to /doc/
 
-        if (path == options.rootPath)
+        if (path === options.rootPath)
             return this.redirect(normalize(options.rootPath + "/"))
 
-        if (options.rootPath) {
+        if (options.rootPath)
             path = normalize(path.replace(options.rootPath, "/"))
-        }
 
         log && console.log(new Date().toISOString(), path)
-        let sent = yield send(this,  path, options)
+        const sent = yield send(this,  path, options)
         if (sent)
             return
         else
