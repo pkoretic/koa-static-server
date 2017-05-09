@@ -16,7 +16,7 @@ $ npm install koa-static-server
 ```js
 var koa = require('koa')
 var app = koa()
-app.use(require('koa-static')(options))
+app.use(require('koa-static-server')(options))
 ```
 
 
