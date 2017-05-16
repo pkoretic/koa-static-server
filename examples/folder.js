@@ -1,7 +1,7 @@
 'use strict'
 
 var serve = require('..')
-var app = require('koa')()
+var app = new (require('koa'))()
 
 // folder support
 // GET /web/
@@ -9,6 +9,11 @@ var app = require('koa')()
 // GET /web/file.txt
 // returns /web/file.txt
 app.use(serve({rootDir: 'web', rootPath: '/web'}))
+
+app.use(async function(ctx, next)
+        {
+            console.log("here")
+        })
 
 app.listen(3000)
 

@@ -1,7 +1,7 @@
 'use strict'
 
 var serve = require('..')
-var app = require('koa')()
+var app = new (require('koa'))()
 
 // root index support
 // GET /
