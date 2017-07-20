@@ -34,6 +34,7 @@ function serve (opts) {
         /* Serve folder as root path - default
          eg. for options
             rootDir = 'web'
+
         'web/file.txt' will be served as 'http://host/file.txt'
         */
         assert(ctx, 'koa context requried')
@@ -53,22 +54,38 @@ function serve (opts) {
 
         /* Serve folders as specified
          eg. for options:
-            rootDir = 'web/static'
-            rootPath = '/static'
+          rootDir = 'web/static'
+          rootPath = '/static'
 
         'web/static/file.txt' will be served as 'http://server/static/file.txt'
         */
 
-        // Redirect non-slashed request to slashed
-        // eg. /doc to /doc/
+        /* Redirect non-slashed request to slashed, excluding the slash itself
+         eg. /doc to /doc/ , but not / to /
+        */
 
-        if (path === options.rootPath)
-            return this.redirect(normalize(options.rootPath + "/"))
+        if (path === options.rootPath && options.rootPath !== '/')
+            return ctx.redirect(normalize(options.rootPath + "/"))
 
         if (options.rootPath)
             path = normalize(path.replace(options.rootPath, "/"))
 
         log && console.log(new Date().toISOString(), path)
+
+        let sent
+
+        /* In case of error from koa-send try to serve the default static file
+         eg. 404 error page or image that illustrates error
+        */
+        try {
+            sent = await send(ctx, path, options)
+        } catch (e) {
+            if (!options.notFoundFile)
+                throw e;
+
+            sent = await send(ctx, options.notFoundFile, options)
+        }
+
         const sent = await send(ctx, path, options)
         if (sent)
             return
@@ -76,4 +93,3 @@ function serve (opts) {
             return next()
     }
 }
-
