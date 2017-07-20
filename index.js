@@ -86,7 +86,6 @@ function serve (opts) {
             sent = await send(ctx, options.notFoundFile, options)
         }
 
-        const sent = await send(ctx, path, options)
         if (sent)
             return
         else
