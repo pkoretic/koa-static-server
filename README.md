@@ -24,6 +24,7 @@ app.use(require('koa-static-server')(options))
 
  - `rootDir` {string} directory that is to be served
  - `rootPath` {string} optional rewrite path
+ - `notFoundFile` {string} optional default file to serve if requested static is missing
  - `log` {boolean} request access log to console
  - `maxage` Browser cache max-age in milliseconds. defaults to 0
  - `hidden` Allow transfer of hidden files. defaults to false
@@ -83,4 +84,3 @@ console.log('listening on port 3000')
 ## License
 
   MIT
-
