@@ -10,11 +10,6 @@ var app = new (require('koa'))()
 // returns /web/file.txt
 app.use(serve({rootDir: 'web', rootPath: '/web'}))
 
-app.use(async function(ctx, next)
-        {
-            console.log("here")
-        })
-
 app.listen(3000)
 
 console.log("listening on port 3000")
