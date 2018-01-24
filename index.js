@@ -31,6 +31,11 @@ function serve (opts) {
     const log = options.log || false
 
     return async (ctx, next) => {
+
+        // skip if this is not a GET/HEAD request
+        if (ctx.method !== 'HEAD' && ctx.method !== 'GET')
+            return next()
+
         /* Serve folder as root path - default
          eg. for options
             rootDir = 'web'
