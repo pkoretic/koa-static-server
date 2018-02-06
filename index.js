@@ -42,7 +42,7 @@ function serve (opts) {
 
         'web/file.txt' will be served as 'http://host/file.txt'
         */
-        assert(ctx, 'koa context requried')
+        assert(ctx, 'koa context required')
         let path = ctx.path
         if (!options.rootPath) {
             log && console.log(new Date().toISOString(), path)
