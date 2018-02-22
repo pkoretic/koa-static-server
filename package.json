@@ -18,6 +18,7 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "koa-send": "~4.1.0"
+    "koa-send": "~4.1.0",
+    "upath": "^1.0.2"
   }
 }
