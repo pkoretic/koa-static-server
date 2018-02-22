@@ -6,7 +6,7 @@
 
 const assert = require('assert')
 const send = require('koa-send')
-const normalize = require('path').normalize
+const normalize = require('upath').normalizeSafe
 const path = require('path')
 
 module.exports = serve
