@@ -26,6 +26,7 @@ app.use(require('koa-static-server')(options))
  - `rootPath` {string} optional rewrite path
  - `notFoundFile` {string} optional default file to serve if requested static is missing
  - `log` {boolean} request access log to console
+ - `last` {boolean} don't execute any downstream middleware. defaults to true
  - `maxage` Browser cache max-age in milliseconds. defaults to 0
  - `hidden` Allow transfer of hidden files. defaults to false
  - `gzip` Try to serve the gzipped version of a file automatically when `gzip`
