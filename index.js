@@ -47,7 +47,7 @@ function serve (opts) {
         if (!options.rootPath) {
             log && console.log(new Date().toISOString(), path)
             const sent = await send(ctx, path, options)
-            if (sent)
+            if (sent && options.last !== false)
                 return
             else
                 return next()
@@ -91,7 +91,7 @@ function serve (opts) {
             sent = await send(ctx, options.notFoundFile, options)
         }
 
-        if (sent)
+        if (sent && options.last !== false)
             return
         else
             return next()
