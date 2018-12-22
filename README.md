@@ -23,7 +23,7 @@ app.use(require('koa-static-server')(options))
 ### Options
 
  - `rootDir` {string} directory that is to be served
- - `rootPath` {string} optional rewrite path
+ - `rootPath` {string} optional rewrite path, defaults to `"/"`
  - `notFoundFile` {string} optional default file to serve if requested static is missing
  - `log` {boolean} request access log to console
  - `last` {boolean} don't execute any downstream middleware. defaults to true

@@ -22,39 +22,25 @@ module.exports = serve
  * @api public
  */
 
-function serve (opts) {
+function serve(opts) {
     assert(typeof opts.rootDir === 'string', 'rootDir must be specified (as a string)')
 
     let options = opts || {}
     options.root = path.resolve(options.rootDir || process.cwd())
     options.index = options.index || "index.html"
     const log = options.log || false
+    const rootPath = options.rootPath || "/"
 
     return async (ctx, next) => {
+        assert(ctx, 'koa context required')
 
         // skip if this is not a GET/HEAD request
         if (ctx.method !== 'HEAD' && ctx.method !== 'GET')
             return next()
 
-        /* Serve folder as root path - default
-         eg. for options
-            rootDir = 'web'
-
-        'web/file.txt' will be served as 'http://host/file.txt'
-        */
-        assert(ctx, 'koa context required')
         let path = ctx.path
-        if (!options.rootPath) {
-            log && console.log(new Date().toISOString(), path)
-            const sent = await send(ctx, path, options)
-            if (sent && options.last !== false)
-                return
-            else
-                return next()
-        }
-
         // Check if request path (eg: /doc/file.html) is allowed (eg. in /doc)
-        if (path.indexOf(options.rootPath) !== 0)
+        if (path.indexOf(rootPath) !== 0)
             return next()
 
         /* Serve folders as specified
@@ -69,11 +55,10 @@ function serve (opts) {
          eg. /doc to /doc/ , but not / to /
         */
 
-        if (path === options.rootPath && options.rootPath !== '/')
-            return ctx.redirect(normalize(options.rootPath + "/"))
+        if (path === rootPath && rootPath !== '/')
+            return ctx.redirect(normalize(rootPath + "/"))
 
-        if (options.rootPath)
-            path = normalize(path.replace(options.rootPath, "/"))
+        path = normalize(path.replace(rootPath, "/"))
 
         log && console.log(new Date().toISOString(), path)
 
