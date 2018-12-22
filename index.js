@@ -29,7 +29,7 @@ function serve(opts) {
     options.root = path.resolve(options.rootDir || process.cwd())
     options.index = options.index || "index.html"
     const log = options.log || false
-    const rootPath = options.rootPath || "/"
+    const rootPath = normalize(options.rootPath ? options.rootPath + "/" : "/")
 
     return async (ctx, next) => {
         assert(ctx, 'koa context required')
@@ -39,6 +39,11 @@ function serve(opts) {
             return next()
 
         let path = ctx.path
+
+        // Redirect non-slashed request to slashed, eg. /doc to /doc/
+        if (path + '/' === rootPath)
+            return ctx.redirect(rootPath)
+
         // Check if request path (eg: /doc/file.html) is allowed (eg. in /doc)
         if (path.indexOf(rootPath) !== 0)
             return next()
@@ -50,13 +55,6 @@ function serve(opts) {
 
         'web/static/file.txt' will be served as 'http://server/static/file.txt'
         */
-
-        /* Redirect non-slashed request to slashed, excluding the slash itself
-         eg. /doc to /doc/ , but not / to /
-        */
-
-        if (path === rootPath && rootPath !== '/')
-            return ctx.redirect(normalize(rootPath + "/"))
 
         path = normalize(path.replace(rootPath, "/"))
 
