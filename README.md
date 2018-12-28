@@ -78,9 +78,7 @@ console.log('listening on port 3000')
 ## Support
 
  * Issues - [open new issue](https://github.com/pkoretic/koa-static-server/issues)
- * IRC - `pkoretic` on freenode
  * mail - petar.koretic@gmail.com
-
 
 ## License
 
