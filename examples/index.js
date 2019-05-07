@@ -11,7 +11,9 @@ var app = new Koa()
 // returns file.txt
 app.use(serve({rootDir: 'web', forbidden :['forbidden']}))
 
-app.listen(3000)
+app.listen(3000,()=>{
+	console.log("listening on port 3000")
+	console.log("access 'file.txt' at /file.txt")
+})
 
-console.log("listening on port 3000")
-console.log("access 'file.txt' at /file.txt")
+
