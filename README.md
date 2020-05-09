@@ -29,9 +29,10 @@ app.use(require('koa-static-server')(options))
  - `last` {boolean} don't execute any downstream middleware. defaults to true
  - `maxage` Browser cache max-age in milliseconds. defaults to 0
  - `hidden` Allow transfer of hidden files. defaults to false
+ - `index` Name of the index file to serve automatically when visiting root location. defaults to `"index.html", use `""` to disable
  - `gzip` Try to serve the gzipped version of a file automatically when `gzip`
 is supported by a client and if the requested file with `.gz` extension exists.
-defaults to true.
+defaults to true
 
 ## Example
 See [examples](https://github.com/pkoretic/koa-static-server/tree/master/examples) for code examples

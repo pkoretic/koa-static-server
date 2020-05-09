@@ -9,7 +9,7 @@ var app = new Koa()
 // returns index.html
 // GET /file.txt
 // returns file.txt
-app.use(serve({rootDir: 'web', forbidden :['forbidden']}))
+app.use(serve({rootDir: 'web'}))
 
 app.listen(3000,()=>{
 	console.log("listening on port 3000")
