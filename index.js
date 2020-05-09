@@ -7,9 +7,8 @@
 const assert = require('assert')
 const send = require('koa-send')
 const normalize = require('upath').normalizeSafe
-const join = require('path').join;
-const resolve = require('path').resolve;
-const fs = require('fs').promises;
+const resolve = require('path').resolve
+const fs = require('fs').promises
 
 module.exports = serve
 
@@ -29,7 +28,10 @@ function serve(opts) {
 
     let options = opts || {}
     options.root = resolve(options.rootDir || process.cwd())
-    options.index = options.index || "index.html"
+
+    // due to backward compatibility uses "index.html" as default but also supports disabling that with ""
+    options.index = (typeof options.index === 'string' || options.index instanceof String) ? options.index : "index.html"
+
     const log = options.log || false
     const rootPath = normalize(options.rootPath ? options.rootPath + "/" : "/")
     const forbidden = opts.forbidden || [];
@@ -65,7 +67,12 @@ function serve(opts) {
         path = normalize(path.replace(rootPath, "/"))
 
         /**
-         * If folder is in forbidden list,refuse request
+         * LOG
+         */
+        log && console.log(new Date().toISOString(), path)
+
+        /**
+         * If folder is in forbidden list, refuse request
          */
         if (forbidden.length > 0) {
             for (let folder of forbidden) {
@@ -77,22 +84,6 @@ function serve(opts) {
                 }
             }
         }
-
-        /**
-         * If someone trying to visit a folder, refust him or her
-         */
-        let CurrentPath = join(opts.rootDir, path); 
-        const stat = await fs.stat(CurrentPath);
-        if(stat.isDirectory()){
-            ctx.status = 403;
-            ctx.body = "IT IS NOT ALLOWED TO VISIT FOLDER"
-            return false;
-        }
-
-        /**
-         * LOG
-         */
-        log && console.log(new Date().toISOString(), path)
 
         let sent
 
