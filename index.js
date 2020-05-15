@@ -32,6 +32,8 @@ function serve(opts) {
     // due to backward compatibility uses "index.html" as default but also supports disabling that with ""
     options.index = (typeof options.index === 'string' || options.index instanceof String) ? options.index : "index.html"
 
+    options.last = (typeof opts.last === 'boolean') ? opts.last : true
+
     const log = options.log || false
     const rootPath = normalize(options.rootPath ? options.rootPath + "/" : "/")
     const forbidden = opts.forbidden || [];
@@ -80,7 +82,8 @@ function serve(opts) {
                 if (folder.test(path)) {
                     ctx.status = 403;
                     ctx.body = "FORBIDDEN FOLDER"
-                    return false;
+
+                    return (options.last) ? undefined : next()
                 }
             }
         }
@@ -94,13 +97,14 @@ function serve(opts) {
             sent = await send(ctx, path, options)
         } catch (error) {
             if (!options.notFoundFile) {
-                ctx.throw(404);
+                if (options.last)
+                    ctx.throw(404)
             } else {
                 sent = await send(ctx, options.notFoundFile, options)
             }
         }
 
-        if (sent && options.last !== false) {
+        if (sent && options.last) {
             return
         } else {
             return next()
